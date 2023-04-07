@@ -56,8 +56,8 @@ module dnsCname './modules/dns-cname.bicep' = {
   }
 }
 
-module developerDnsTxtAuth './modules/dns-txt.bicep' = {
-  name: 'dnsTxtAuth'
+module dnsTxt './modules/dns-txt.bicep' = {
+  name: 'dnsTxt'
   scope: resourceGroup
   params: {
     dnsZoneName: dnsZoneName
