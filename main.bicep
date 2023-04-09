@@ -21,14 +21,14 @@ module dnsZone './modules/dns-zone.bicep' = {
 }
 
 // Create a web app
-module webApp './modules/web-app.bicep' = {
+module webApp './modules/app-service.bicep' = {
   name: 'webApp'
   scope: resourceGroup
   params: {
     location: location
     suffix: suffix
     prefix: prefix
-    webAppName: subdomain
+    name: subdomain
   }
 }
 
@@ -42,6 +42,15 @@ module frontDoor './modules/front-door.bicep' = {
     dnsZoneName: dnsZoneName
     subdomain: subdomain
     originHostName: webApp.outputs.hostname
+  }
+}
+
+module appServiceConfig './modules/app-service-config.bicep' = {
+  name: 'appServiceConfig'
+  scope: resourceGroup
+  params: {
+    appServiceName: webApp.outputs.name
+    frontDoorId: frontDoor.outputs.endpointHostname
   }
 }
 

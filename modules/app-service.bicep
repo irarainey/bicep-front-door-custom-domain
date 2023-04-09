@@ -1,7 +1,7 @@
 param location string
 param prefix string
 param suffix string
-param webAppName string
+param name string
 
 @allowed([
   'Y1'
@@ -27,7 +27,7 @@ param sku string = 'P1v3'
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
   name: '${prefix}-asp-${suffix}'
   location: location
-  kind: 'linux'
+  kind: 'app,linux'
   sku: {
     name: sku
     capacity: 1
@@ -38,11 +38,13 @@ resource appServicePlan 'Microsoft.Web/serverfarms@2022-03-01' = {
 }
 
 resource appService 'Microsoft.Web/sites@2022-03-01' = {
-  name: '${prefix}-webapp-${webAppName}-${suffix}'
+  name: '${prefix}-webapp-${name}-${suffix}'
   location: location
   properties: {
     serverFarmId: appServicePlan.id
+    httpsOnly: true
   }
 }
 
+output name string = appService.name
 output hostname string = appService.properties.defaultHostName
