@@ -45,6 +45,7 @@ module frontDoor './modules/front-door.bicep' = {
   }
 }
 
+// Configure network restrictions
 module appServiceConfig './modules/app-service-config.bicep' = {
   name: 'appServiceConfig'
   scope: resourceGroup
@@ -65,6 +66,7 @@ module dnsCname './modules/dns-cname.bicep' = {
   }
 }
 
+// Create a dns txt record for the web app to validate ownership of domain
 module dnsTxt './modules/dns-txt.bicep' = {
   name: 'dnsTxt'
   scope: resourceGroup
